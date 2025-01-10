@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - master
+      - EliasTheGrandMasterOfMistakes-patch-3 
       - main # In case we adopt this convention in the future
   pull_request:
     paths-ignore:
