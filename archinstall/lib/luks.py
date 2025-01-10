@@ -86,6 +86,7 @@ class Luks2:
 			'--verbose',
 			'--type', 'luks2',
 			'--pbkdf', 'argon2id',
+			'--cipher', 'serpent-xts-plain64',
 			'--hash', hash_type,
 			'--key-size', str(key_size),
 			'--iter-time', str(iter_time),
