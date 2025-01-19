@@ -57,10 +57,11 @@ class MirrorStatusEntryV3(BaseModel):
 					with urllib.request.urlopen(req, None, 5) as handle, DownloadTimer(timeout=5) as timer:
 						size = len(handle.read())
 
+					assert timer.time is not None
 					self._speed = size / timer.time
 					debug(f"    speed: {self._speed} ({int(self._speed / 1024 / 1024 * 100) / 100}MiB/s)")
 				# Do not retry error
-				except (urllib.error.URLError, ) as error:
+				except urllib.error.URLError as error:
 					debug(f"    speed: <undetermined> ({error}), skip")
 					self._speed = 0
 				# Do retry error
@@ -253,7 +254,7 @@ class MirrorListHandler:
 
 				url = line.removeprefix('Server = ')
 				mirror_entry = MirrorStatusEntryV3(
-					url=url.rstrip('$repo/os/$arch'),
+					url=url.removesuffix('$repo/os/$arch'),
 					protocol=urllib.parse.urlparse(url).scheme,
 					active=True,
 					country=current_region or 'Worldwide',
